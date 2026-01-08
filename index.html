@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>P-PRINT | Stampa 3D su Ordinazione</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #22d3ee;
+      --secondary: #10b981;
+      --dark-bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #e2e8f0;
+      --text-secondary: #94a3b8;
+    }
+
+    body {
+      font-family: 'Courier New', monospace;
+      background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2847 100%);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* HEADER / HERO */
+    header {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 0, 110, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      animation: fadeInUp 1s ease-out;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-hero {
+      font-size: 5em;
+      margin-bottom: 30px;
+      text-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .brand-name {
+      font-size: 4em;
+      font-weight: bold;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 3px;
+      text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+    }
+
+    .tagline {
+      font-size: 1.3em;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      letter-spacing: 2px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 15px 40px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: var(--dark-bg);
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .cta-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px var(--primary), 0 0 60px var(--primary);
+    }
+
+    /* CATALOGO */
+    .catalog-section {
+      max-width: 1400px;
+      margin: 80px auto;
+      padding: 40px 20px;
+    }
+
+    .section-title {
+      font-size: 2.5em;
+      text-align: center;
+      margin-bottom: 60px;
+      color: var(--primary);
+      text-shadow: 0 0 20px var(--primary);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .catalog {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .product {
+      background: var(--card-bg);
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    }
+
+    .product::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .product:hover {
+      border-color: var(--secondary);
+      transform: translateY(-10px);
+      box-shadow: 0 0 30px var(--primary), 0 0 50px rgba(255, 0, 110, 0.3);
+    }
+
+    .product-image {
+      width: 100%;
+      height: 240px;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4em;
+      border-bottom: 2px solid var(--primary);
+      transition: all 0.4s ease;
+    }
+
+    .product:hover .product-image {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(255, 0, 110, 0.3));
+      border-bottom-color: var(--secondary);
+    }
+
+    .product-info {
+      padding: 25px;
+    }
+
+    .product-info h2 {
+      font-size: 1.4em;
+      margin-bottom: 10px;
+      color: var(--primary);
+      letter-spacing: 1px;
+    }
+
+    .product-info p {
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-size: 0.95em;
+    }
+
+    .price {
+      font-size: 2em;
+      font-weight: bold;
+      color: var(--secondary);
+      margin: 20px 0;
+      text-shadow: 0 0 10px var(--secondary);
+    }
+
+    .product button {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: var(--dark-bg);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      font-family: 'Courier New', monospace;
+    }
+
+    .product button:hover {
+      background: var(--secondary);
+      box-shadow: 0 0 15px var(--secondary);
+      transform: scale(1.02);
+    }
+
+    /* ABOUT SECTION */
+    .about-section {
+      background: var(--card-bg);
+      margin: 80px 20px;
+      padding: 60px 40px;
+      border-radius: 12px;
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .about-section h2 {
+      font-size: 2em;
+      color: var(--primary);
+      margin-bottom: 30px;
+      text-shadow: 0 0 15px var(--primary);
+      letter-spacing: 2px;
+    }
+
+    .about-section p {
+      color: var(--text);
+      margin-bottom: 20px;
+      font-size: 1.05em;
+      line-height: 1.8;
+    }
+
+    .about-section strong {
+      color: var(--secondary);
+    }
+
+    /* ORDER SECTION */
+    #order-section {
+      background: var(--card-bg);
+      padding: 50px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+      margin: 80px 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      border: 2px solid var(--primary);
+    }
+
+    #order-section h2 {
+      font-size: 2em;
+      color: var(--primary);
+      margin-bottom: 30px;
+      text-shadow: 0 0 15px var(--primary);
+      letter-spacing: 2px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--primary);
+      letter-spacing: 1px;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 12px;
+      background: rgba(0, 212, 255, 0.05);
+      border: 2px solid var(--primary);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: 'Courier New', monospace;
+      transition: all 0.3s ease;
+    }
+
+    form input:focus, form textarea:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 15px var(--secondary);
+      background: rgba(255, 0, 110, 0.05);
+    }
+
+    form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: var(--dark-bg);
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'Courier New', monospace;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px var(--primary);
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px var(--primary), 0 0 50px var(--secondary);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .success-message {
+      background: rgba(0, 212, 255, 0.1);
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 20px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: none;
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 0 20px var(--primary);
+    }
+
+    .success-message.show {
+      display: block;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.1));
+      border-top: 2px solid var(--primary);
+      margin-top: 80px;
+      color: var(--text-secondary);
+    }
+
+    footer p {
+      margin: 10px 0;
+      letter-spacing: 1px;
+    }
+
+    /* ANIMAZIONI */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        text-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+      }
+      50% {
+        text-shadow: 0 0 30px var(--primary), 0 0 60px var(--primary);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .brand-name {
+        font-size: 2.5em;
+      }
+
+      .section-title {
+        font-size: 1.8em;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      #order-section {
+        padding: 30px 20px;
+      }
+
+      .about-section {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hero-content">
+    <div class="logo-hero">
+      <img src="logo.png" alt="P-PRINT Logo">
+    </div>
+    <p class="tagline">Stampa 3D Su Ordinazione</p>
+    <button class="cta-button" onclick="document.querySelector('.catalog-section').scrollIntoView({behavior: 'smooth'})">Scopri i Prodotti</button>
+  </div>
+</header>
+
+<section class="catalog-section">
+  <h2 class="section-title">Catalogo Prodotti</h2>
+  <div class="catalog" id="catalog"></div>
+</section>
+
+<section class="about-section">
+  <h2>Chi Siamo</h2>
+  <p>Benvenuto su <strong>P-PRINT</strong>, il tuo partner per la stampa 3D su ordinazione. Realizziamo oggetti personalizzati in PLA e altri materiali con <strong>precisione e qualità</strong>.</p>
+  <p>Ogni prodotto è stampato con cura, garantendo <strong>2-4 giorni di produzione</strong> e consegna affidabile. Che tu abbia bisogno di prototipi, gadget, organizzatori o decorazioni, siamo qui per portare le tue idee alla vita.</p>
+  <p>Contattaci per ordini bulk o personalizzazioni speciali. <strong>Il tuo progetto inizia qui.</strong></p>
+</section>
+
+<section id="order-section" class="hidden">
+  <h2>Effettua un Ordine</h2>
+  <div class="success-message" id="success-message">
+    ✓ Ordine registrato! Ti contatteremo presto via email.
+  </div>
+
+  <form id="order-form">
+    <input type="hidden" name="prodotto" id="product-input">
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="nome">Nome *</label>
+        <input type="text" id="nome" name="nome" placeholder="Il tuo nome" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" placeholder="La tua email" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="telefono">Telefono</label>
+        <input type="tel" id="telefono" name="telefono" placeholder="Il tuo numero">
+      </div>
+      <div class="form-group">
+        <label for="quantita">Quantità *</label>
+        <input type="number" id="quantita" name="quantita" min="1" value="1" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="note">Note (colore, personalizzazioni, ecc.)</label>
+      <textarea id="note" name="note" placeholder="Scrivi qui eventuali personalizzazioni..."></textarea>
+    </div>
+
+    <button type="submit" class="submit-btn">Invia Ordine</button>
+  </form>
+</section>
+
+<footer>
+  <p>⏱️ Produzione 2–4 giorni lavorativi</p>
+  <p>🖨️ Stampa 3D di qualità professionale</p>
+  <p>📍 Consegna in Italia</p>
+</footer>
+
+<script>
+  let products = [];
+
+  async function loadCatalog() {
+    try {
+      const response = await fetch('products.json');
+      products = await response.json();
+      renderCatalog();
+    } catch (error) {
+      console.error('Errore nel caricamento:', error);
+      document.getElementById("catalog").innerHTML = '<p style="color: #ff006e;">Errore nel caricamento dei prodotti.</p>';
+    }
+  }
+
+  function renderCatalog() {
+    const catalog = document.getElementById("catalog");
+    catalog.innerHTML = '';
+    products.forEach(product => {
+      const productDiv = document.createElement("div");
+      productDiv.className = "product";
+      productDiv.innerHTML = `
+        <div class="product-image">${product.emoji}</div>
+        <div class="product-info">
+          <h2>${product.name}</h2>
+          <p>${product.description}</p>
+          <div class="price">${product.price}€</div>
+          <button onclick="openOrder('${product.name}', ${product.price})">Ordina</button>
+        </div>
+      `;
+      catalog.appendChild(productDiv);
+    });
+  }
+
+  function openOrder(productName, price) {
+    document.getElementById("product-input").value = productName;
+    document.getElementById("order-section").classList.remove("hidden");
+    document.getElementById("order-section").scrollIntoView({ behavior: "smooth" });
+  }
+
+  document.getElementById("order-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const formData = {
+      prodotto: document.getElementById("product-input").value,
+      nome: document.getElementById("nome").value,
+      email: document.getElementById("email").value,
+      telefono: document.getElementById("telefono").value,
+      quantita: document.getElementById("quantita").value,
+      note: document.getElementById("note").value,
+      data: new Date().toLocaleString('it-IT')
+    };
+
+    console.log("Ordine:", formData);
+    
+    document.getElementById("success-message").classList.add("show");
+    this.reset();
+    
+    setTimeout(() => {
+      document.getElementById("success-message").classList.remove("show");
+      document.getElementById("order-section").classList.add("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 3000);
+  });
+
+  loadCatalog();
+</script>
+
+</body>
+</html>
