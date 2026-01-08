@@ -26,6 +26,67 @@
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--primary);
+      z-index: 1000;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    }
+
+    .nav-logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      font-size: 0.95em;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
     }
 
     /* HEADER / HERO */
@@ -35,9 +96,10 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 40px 20px;
+      padding: 100px 20px 40px;
       position: relative;
       overflow: hidden;
+      margin-top: 0;
     }
 
     header::before {
@@ -64,10 +126,14 @@
     }
 
     .logo-hero {
-      font-size: 5em;
       margin-bottom: 30px;
-      text-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
       animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .logo-hero img {
+      max-width: 200px;
+      height: auto;
+      filter: drop-shadow(0 0 20px var(--primary)) drop-shadow(0 0 40px var(--primary));
     }
 
     .brand-name {
@@ -79,7 +145,7 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       letter-spacing: 3px;
-      text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+      animation: slideInDown 0.8s ease-out;
     }
 
     .tagline {
@@ -87,6 +153,7 @@
       color: var(--text-secondary);
       margin-bottom: 40px;
       letter-spacing: 2px;
+      animation: slideInUp 0.8s ease-out 0.2s both;
     }
 
     .cta-button {
@@ -103,6 +170,7 @@
       box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
       text-transform: uppercase;
       letter-spacing: 1px;
+      animation: slideInUp 0.8s ease-out 0.4s both;
     }
 
     .cta-button:hover {
@@ -125,6 +193,22 @@
       text-shadow: 0 0 20px var(--primary);
       letter-spacing: 2px;
       text-transform: uppercase;
+      animation: fadeInDown 0.6s ease-out;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
     }
 
     .catalog {
@@ -132,6 +216,7 @@
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
       margin-bottom: 40px;
+      animation: fadeIn 0.6s ease-out 0.2s both;
     }
 
     .product {
@@ -142,6 +227,7 @@
       transition: all 0.4s ease;
       position: relative;
       box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+      animation: slideUp 0.6s ease-out;
     }
 
     .product::before {
@@ -159,8 +245,9 @@
 
     .product:hover {
       border-color: var(--secondary);
-      transform: translateY(-10px);
+      transform: translateY(-10px) scale(1.02);
       box-shadow: 0 0 30px var(--primary), 0 0 50px rgba(255, 0, 110, 0.3);
+      animation: float 0.6s ease-in-out infinite;
     }
 
     .product-image {
@@ -173,6 +260,31 @@
       font-size: 4em;
       border-bottom: 2px solid var(--primary);
       transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-image::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .product:hover .product-image::before {
+      left: 100%;
+    }
+
+    .product-image-emoji {
+      animation: printRotate 3s linear infinite;
+    }
+
+    .product:hover .product-image-emoji {
+      animation: printRotate 1s linear infinite;
     }
 
     .product:hover .product-image {
@@ -219,12 +331,37 @@
       letter-spacing: 1px;
       transition: all 0.3s ease;
       font-family: 'Courier New', monospace;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .product button:hover::before {
+      width: 300px;
+      height: 300px;
     }
 
     .product button:hover {
       background: var(--secondary);
       box-shadow: 0 0 15px var(--secondary);
       transform: scale(1.02);
+    }
+
+    .product button span {
+      position: relative;
+      z-index: 1;
     }
 
     /* ABOUT SECTION */
@@ -238,6 +375,21 @@
       max-width: 1000px;
       margin-left: auto;
       margin-right: auto;
+      animation: slideInLeft 0.8s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+      animation: shimmer 3s infinite;
+      pointer-events: none;
     }
 
     .about-section h2 {
@@ -246,6 +398,8 @@
       margin-bottom: 30px;
       text-shadow: 0 0 15px var(--primary);
       letter-spacing: 2px;
+      position: relative;
+      z-index: 1;
     }
 
     .about-section p {
@@ -253,6 +407,8 @@
       margin-bottom: 20px;
       font-size: 1.05em;
       line-height: 1.8;
+      position: relative;
+      z-index: 1;
     }
 
     .about-section strong {
@@ -270,6 +426,7 @@
       margin-left: auto;
       margin-right: auto;
       border: 2px solid var(--primary);
+      animation: slideInUp 0.6s ease-out;
     }
 
     #order-section h2 {
@@ -282,6 +439,7 @@
 
     .form-group {
       margin-bottom: 20px;
+      animation: fadeIn 0.4s ease-out;
     }
 
     .form-group label {
@@ -306,8 +464,9 @@
     form input:focus, form textarea:focus {
       outline: none;
       border-color: var(--secondary);
-      box-shadow: 0 0 15px var(--secondary);
+      box-shadow: 0 0 15px var(--secondary), inset 0 0 10px rgba(0, 212, 255, 0.1);
       background: rgba(255, 0, 110, 0.05);
+      transform: scale(1.01);
     }
 
     form textarea {
@@ -337,6 +496,23 @@
       font-family: 'Courier New', monospace;
       transition: all 0.3s ease;
       box-shadow: 0 0 20px var(--primary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .submit-btn:hover::before {
+      left: 100%;
     }
 
     .submit-btn:hover {
@@ -344,8 +520,12 @@
       box-shadow: 0 0 30px var(--primary), 0 0 50px var(--secondary);
     }
 
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
     .hidden {
-      display: none;
+      display: none !important;
     }
 
     .success-message {
@@ -360,11 +540,11 @@
       font-weight: bold;
       letter-spacing: 1px;
       box-shadow: 0 0 20px var(--primary);
+      animation: successPop 0.5s ease-out;
     }
 
     .success-message.show {
       display: block;
-      animation: slideDown 0.5s ease-out;
     }
 
     /* FOOTER */
@@ -394,6 +574,59 @@
       }
     }
 
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     @keyframes pulse-glow {
       0%, 100% {
         text-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
@@ -403,10 +636,48 @@
       }
     }
 
-    @keyframes slideDown {
+    @keyframes printRotate {
+      from {
+        transform: rotateZ(0deg);
+      }
+      to {
+        transform: rotateZ(360deg);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(-10px) scale(1.02);
+      }
+      50% {
+        transform: translateY(-15px) scale(1.02);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        left: -100%;
+      }
+      100% {
+        left: 100%;
+      }
+    }
+
+    @keyframes successPop {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slideUp {
       from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(30px);
       }
       to {
         opacity: 1;
@@ -416,9 +687,30 @@
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
+      nav {
+        padding: 12px 15px;
+      }
+
+      .nav-logo {
+        font-size: 1.2em;
+      }
+
+      .nav-links {
+        gap: 15px;
+        font-size: 0.85em;
+      }
+
       header {
         min-height: 80vh;
-        padding: 20px;
+        padding: 80px 20px 40px;
+      }
+
+      .logo-hero {
+        font-size: 3.5em;
+      }
+
+      .brand-name {
+        font-size: 2.5em;
       }
 
       .tagline {
@@ -465,17 +757,6 @@
       .about-section {
         padding: 30px 20px;
         margin: 40px 10px;
-        font-size: 0.95em;
-      }
-
-      .about-section h2 {
-        font-size: 1.6em;
-        margin-bottom: 20px;
-      }
-
-      .about-section p {
-        margin-bottom: 15px;
-        font-size: 0.95em;
       }
 
       #order-section {
@@ -483,62 +764,37 @@
         margin: 40px 10px;
       }
 
-      #order-section h2 {
-        font-size: 1.6em;
-        margin-bottom: 20px;
-      }
-
-      .form-group label {
-        font-size: 0.9em;
-      }
-
-      form input, form textarea {
-        padding: 10px;
-        font-size: 16px;
-      }
-
       .form-row {
         grid-template-columns: 1fr;
         gap: 10px;
       }
-
-      .submit-btn {
-        padding: 12px;
-        font-size: 1em;
-      }
-
-      .catalog-section {
-        margin: 40px 0;
-        padding: 20px 10px;
-      }
-
-      footer {
-        padding: 20px 15px;
-        font-size: 0.9em;
-      }
     }
 
     @media (max-width: 480px) {
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nav-links {
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
       header {
         min-height: 100vh;
+        padding: 70px 15px 30px;
       }
 
       .logo-hero {
-        margin-bottom: 20px;
+        font-size: 3em;
+        margin-bottom: 15px;
       }
 
-      .logo-hero img {
-        max-width: 200px;
-      }
-
-      .tagline {
-        font-size: 0.9em;
-        margin-bottom: 20px;
-      }
-
-      .cta-button {
-        padding: 10px 25px;
-        font-size: 0.85em;
+      .brand-name {
+        font-size: 2em;
+        margin-bottom: 15px;
       }
 
       .section-title {
@@ -552,17 +808,6 @@
 
       .product-info h2 {
         font-size: 1.1em;
-        margin-bottom: 8px;
-      }
-
-      .product-info p {
-        font-size: 0.85em;
-        margin-bottom: 10px;
-      }
-
-      .price {
-        font-size: 1.3em;
-        margin: 10px 0;
       }
 
       .about-section {
@@ -570,43 +815,23 @@
         margin: 30px 5px;
       }
 
-      .about-section h2 {
-        font-size: 1.4em;
-      }
-
-      .about-section p {
-        font-size: 0.85em;
-        line-height: 1.6;
-      }
-
       #order-section {
         padding: 20px 15px;
         margin: 30px 5px;
-      }
-
-      #order-section h2 {
-        font-size: 1.4em;
-      }
-
-      form input, form textarea {
-        padding: 10px;
-        margin: 6px 0;
-        font-size: 16px;
-      }
-
-      .success-message {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-
-      footer p {
-        font-size: 0.85em;
-        margin: 5px 0;
       }
     }
   </style>
 </head>
 <body>
+
+<nav>
+  <div class="nav-logo">🖨️ P-PRINT</div>
+  <ul class="nav-links">
+    <li><a href="#catalog">Catalogo</a></li>
+    <li><a href="#about">Chi Siamo</a></li>
+    <li><a href="#order">Ordina</a></li>
+  </ul>
+</nav>
 
 <header>
   <div class="hero-content">
@@ -614,23 +839,23 @@
       <img src="logo.png" alt="P-PRINT Logo">
     </div>
     <p class="tagline">Stampa 3D Su Ordinazione</p>
-    <button class="cta-button" onclick="document.querySelector('.catalog-section').scrollIntoView({behavior: 'smooth'})">Scopri i Prodotti</button>
+    <button class="cta-button" onclick="document.getElementById('catalog').scrollIntoView({behavior: 'smooth'})">Scopri i Prodotti</button>
   </div>
 </header>
 
-<section class="catalog-section">
+<section class="catalog-section" id="catalog">
   <h2 class="section-title">Catalogo Prodotti</h2>
-  <div class="catalog" id="catalog"></div>
+  <div class="catalog" id="catalog-grid"></div>
 </section>
 
-<section class="about-section">
+<section class="about-section" id="about">
   <h2>Chi Siamo</h2>
   <p>Benvenuto su <strong>P-PRINT</strong>, il tuo partner per la stampa 3D su ordinazione. Realizziamo oggetti personalizzati in PLA e altri materiali con <strong>precisione e qualità</strong>.</p>
   <p>Ogni prodotto è stampato con cura, garantendo <strong>2-4 giorni di produzione</strong> e consegna affidabile. Che tu abbia bisogno di prototipi, gadget, organizzatori o decorazioni, siamo qui per portare le tue idee alla vita.</p>
   <p>Contattaci per ordini bulk o personalizzazioni speciali. <strong>Il tuo progetto inizia qui.</strong></p>
 </section>
 
-<section id="order-section" class="hidden">
+<section id="order-section" class="hidden" id="order">
   <h2>Effettua un Ordine</h2>
   <div class="success-message" id="success-message">
     ✓ Ordine registrato! Ti contatteremo presto via email.
@@ -666,43 +891,75 @@
       <textarea id="note" name="note" placeholder="Scrivi qui eventuali personalizzazioni..."></textarea>
     </div>
 
-    <button type="submit" class="submit-btn">Invia Ordine</button>
+    <button type="submit" class="submit-btn"><span>Invia Ordine</span></button>
   </form>
 </section>
 
 <footer>
   <p>⏱️ Produzione 2–4 giorni lavorativi</p>
   <p>🖨️ Stampa 3D di qualità professionale</p>
-  <p>📍 Consegna in Italia</p>
+  <p>📦 Consegna in Italia</p>
 </footer>
 
 <script>
   let products = [];
 
+  const sampleProducts = [
+    {
+      "id": 1,
+      "name": "Supporto Smartphone",
+      "price": 12,
+      "description": "PLA – vari colori disponibili",
+      "emoji": "📱"
+    },
+    {
+      "id": 2,
+      "name": "Organizer Scrivania",
+      "price": 18,
+      "description": "PLA – resistente e pratico",
+      "emoji": "📦"
+    },
+    {
+      "id": 3,
+      "name": "Vasetto Piante",
+      "price": 8,
+      "description": "PLA biodegradabile – vari diametri",
+      "emoji": "🌱"
+    },
+    {
+      "id": 4,
+      "name": "Supporto Auricolari",
+      "price": 6,
+      "description": "PLA – compatto e elegante",
+      "emoji": "🎧"
+    }
+  ];
+
   async function loadCatalog() {
     try {
       const response = await fetch('products.json');
       products = await response.json();
-      renderCatalog();
     } catch (error) {
-      console.error('Errore nel caricamento:', error);
-      document.getElementById("catalog").innerHTML = '<p style="color: #ff006e;">Errore nel caricamento dei prodotti.</p>';
+      console.log('Usando prodotti di esempio');
+      products = sampleProducts;
     }
+    renderCatalog();
   }
 
   function renderCatalog() {
-    const catalog = document.getElementById("catalog");
+    const catalog = document.getElementById("catalog-grid");
     catalog.innerHTML = '';
-    products.forEach(product => {
+    products.forEach((product, index) => {
       const productDiv = document.createElement("div");
       productDiv.className = "product";
+      productDiv.style.animationDelay = (index * 0.1) + 's';
       productDiv.innerHTML = `
-        <div class="product-image">${product.emoji}</div>
+        <div class="product-image"><span class="product-image-emoji">${product.emoji}</span></div>
         <div class="product-info">
           <h2>${product.name}</h2>
           <p>${product.description}</p>
           <div class="price">${product.price}€</div>
-          <button onclick="openOrder('${product.name}', ${product.price})">Ordina</button>
+          <button onclick="openOrder('${product.name}', ${product.price})"><span>Ordina</span></button>
         </div>
       `;
       catalog.appendChild(productDiv);
@@ -718,26 +975,41 @@
   document.getElementById("order-form").addEventListener("submit", function(e) {
     e.preventDefault();
     
-    const formData = {
-      prodotto: document.getElementById("product-input").value,
-      nome: document.getElementById("nome").value,
-      email: document.getElementById("email").value,
-      telefono: document.getElementById("telefono").value,
-      quantita: document.getElementById("quantita").value,
-      note: document.getElementById("note").value,
-      data: new Date().toLocaleString('it-IT')
-    };
+    const formspreeID = "mvzgeyoa";
+    
+    if (formspreeID === "FORMSPREE_ID") {
+      alert("⚠️ Devi configurare Formspree!\n\n1. Vai su formspree.io\n2. Crea un account\n3. Crea un nuovo form\n4. Copia l'ID e sostituiscilo nel codice");
+      return;
+    }
 
-    console.log("Ordine:", formData);
-    
-    document.getElementById("success-message").classList.add("show");
-    this.reset();
-    
-    setTimeout(() => {
-      document.getElementById("success-message").classList.remove("show");
-      document.getElementById("order-section").classList.add("hidden");
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 3000);
+    const formData = new FormData(this);
+    const url = `https://formspree.io/f/${formspreeID}`;
+
+    fetch(url, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        document.getElementById("success-message").classList.add("show");
+        document.getElementById("order-form").reset();
+        
+        setTimeout(() => {
+          document.getElementById("success-message").classList.remove("show");
+          document.getElementById("order-section").classList.add("hidden");
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 3000);
+      } else {
+        alert("Errore nell'invio. Riprova.");
+      }
+    })
+    .catch(error => {
+      console.error('Errore:', error);
+      alert("Errore di connessione. Riprova.");
+    });
   });
 
   loadCatalog();
