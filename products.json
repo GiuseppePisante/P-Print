@@ -4,27 +4,31 @@
     "name": "Supporto Smartphone",
     "price": 12,
     "description": "PLA – vari colori disponibili",
-    "emoji": "📱"
+    "emoji": "📱",
+    "model": "obj.glb"
   },
   {
     "id": 2,
     "name": "Organizer Scrivania",
     "price": 18,
     "description": "PLA – resistente e pratico",
-    "emoji": "📦"
+    "emoji": "📦",
+    "model": "obj.glb"
   },
   {
     "id": 3,
     "name": "Vasetto Piante",
     "price": 8,
     "description": "PLA biodegradabile – vari diametri",
-    "emoji": "🌱"
+    "emoji": "🌱",
+    "model": "obj.glb"
   },
   {
     "id": 4,
     "name": "Supporto Auricolari",
     "price": 6,
     "description": "PLA – compatto e elegante",
-    "emoji": "🎧"
+    "emoji": "🎧",
+    "model": "obj.glb"
   }
 ]
