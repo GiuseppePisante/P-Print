@@ -166,17 +166,29 @@
     .product-image {
       width: 100%;
       height: 240px;
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 110, 0.1));
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(16, 185, 129, 0.1));
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 4em;
       border-bottom: 2px solid var(--primary);
       transition: all 0.4s ease;
+      overflow: hidden;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .product:hover .product-image img {
+      transform: scale(1.05);
     }
 
     .product:hover .product-image {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(255, 0, 110, 0.3));
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.3), rgba(16, 185, 129, 0.3));
       border-bottom-color: var(--secondary);
     }
 
@@ -416,24 +428,192 @@
 
     /* RESPONSIVE */
     @media (max-width: 768px) {
-      .brand-name {
-        font-size: 2.5em;
+      header {
+        min-height: 80vh;
+        padding: 20px;
+      }
+
+      .tagline {
+        font-size: 1em;
+        margin-bottom: 25px;
+      }
+
+      .cta-button {
+        padding: 12px 30px;
+        font-size: 0.95em;
       }
 
       .section-title {
         font-size: 1.8em;
+        margin-bottom: 30px;
+      }
+
+      .catalog {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .product {
+        border-radius: 8px;
+      }
+
+      .product-image {
+        height: 200px;
+      }
+
+      .product-info h2 {
+        font-size: 1.2em;
+      }
+
+      .product button {
+        padding: 10px;
+        font-size: 0.9em;
+      }
+
+      .price {
+        font-size: 1.5em;
+      }
+
+      .about-section {
+        padding: 30px 20px;
+        margin: 40px 10px;
+        font-size: 0.95em;
+      }
+
+      .about-section h2 {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+      }
+
+      .about-section p {
+        margin-bottom: 15px;
+        font-size: 0.95em;
+      }
+
+      #order-section {
+        padding: 25px 15px;
+        margin: 40px 10px;
+      }
+
+      #order-section h2 {
+        font-size: 1.6em;
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        font-size: 0.9em;
+      }
+
+      form input, form textarea {
+        padding: 10px;
+        font-size: 16px;
       }
 
       .form-row {
         grid-template-columns: 1fr;
+        gap: 10px;
       }
 
-      #order-section {
-        padding: 30px 20px;
+      .submit-btn {
+        padding: 12px;
+        font-size: 1em;
+      }
+
+      .catalog-section {
+        margin: 40px 0;
+        padding: 20px 10px;
+      }
+
+      footer {
+        padding: 20px 15px;
+        font-size: 0.9em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        min-height: 100vh;
+      }
+
+      .logo-hero {
+        margin-bottom: 20px;
+      }
+
+      .logo-hero img {
+        max-width: 200px;
+      }
+
+      .tagline {
+        font-size: 0.9em;
+        margin-bottom: 20px;
+      }
+
+      .cta-button {
+        padding: 10px 25px;
+        font-size: 0.85em;
+      }
+
+      .section-title {
+        font-size: 1.5em;
+        margin-bottom: 25px;
+      }
+
+      .product-info {
+        padding: 15px;
+      }
+
+      .product-info h2 {
+        font-size: 1.1em;
+        margin-bottom: 8px;
+      }
+
+      .product-info p {
+        font-size: 0.85em;
+        margin-bottom: 10px;
+      }
+
+      .price {
+        font-size: 1.3em;
+        margin: 10px 0;
       }
 
       .about-section {
-        padding: 40px 20px;
+        padding: 20px 15px;
+        margin: 30px 5px;
+      }
+
+      .about-section h2 {
+        font-size: 1.4em;
+      }
+
+      .about-section p {
+        font-size: 0.85em;
+        line-height: 1.6;
+      }
+
+      #order-section {
+        padding: 20px 15px;
+        margin: 30px 5px;
+      }
+
+      #order-section h2 {
+        font-size: 1.4em;
+      }
+
+      form input, form textarea {
+        padding: 10px;
+        margin: 6px 0;
+        font-size: 16px;
+      }
+
+      .success-message {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+
+      footer p {
+        font-size: 0.85em;
+        margin: 5px 0;
       }
     }
   </style>
@@ -529,7 +709,9 @@
       const productDiv = document.createElement("div");
       productDiv.className = "product";
       productDiv.innerHTML = `
-        <div class="product-image">${product.emoji}</div>
+        <div class="product-image">
+          <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'">
+        </div>
         <div class="product-info">
           <h2>${product.name}</h2>
           <p>${product.description}</p>
