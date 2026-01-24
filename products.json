@@ -17,11 +17,11 @@
   },
   {
     "id": 3,
-    "name": "Vasetto Piante",
+    "name": "Aereo B2SpiritBomber",
     "price": 8,
-    "description": "PLA biodegradabile – vari diametri",
+    "description": "PLA nero – modello dettagliato",
     "emoji": "🌱",
-    "model": "obj.glb"
+    "model": "Aereob2spiritbomber.glb"
   },
   {
     "id": 4,
