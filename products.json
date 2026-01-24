@@ -25,10 +25,10 @@
   },
   {
     "id": 4,
-    "name": "Supporto Auricolari",
-    "price": 6,
+    "name": "Funko Pop Personalizzato",
+    "price": 25,
     "description": "PLA – compatto e elegante",
-    "emoji": "🎧",
+    "emoji": "🧸",
     "model": "obj.glb"
   }
 ]
