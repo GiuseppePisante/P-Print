@@ -1,11 +1,11 @@
 [
   {
     "id": 1,
-    "name": "Supporto Smartphone",
-    "price": 12,
-    "description": "PLA – vari colori disponibili",
-    "emoji": "📱",
-    "model": "obj.glb"
+    "name": "Palla da Tennis",
+    "price": 5,
+    "description": "TPU – vari colori disponibili",
+    "emoji": "🎾",
+    "model": "pallatennis.glb"
   },
   {
     "id": 2,
