@@ -9,16 +9,16 @@
   },
   {
     "id": 2,
-    "name": "Organizer Scrivania",
+    "name": "Statuetta Personale",
     "price": 18,
     "description": "PLA – resistente e pratico",
     "emoji": "📦",
-    "model": "obj.glb"
+    "model": "hitem3d.glb"
   },
   {
     "id": 3,
     "name": "Aereo B2SpiritBomber",
-    "price": 8,
+    "price": 20,
     "description": "PLA nero – modello dettagliato",
     "emoji": "🌱",
     "model": "Aereob2spirit.glb"
